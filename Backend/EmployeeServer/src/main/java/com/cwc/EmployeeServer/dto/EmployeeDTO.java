@@ -1,11 +1,34 @@
 package com.cwc.EmployeeServer.dto;
 
+import com.cwc.EmployeeServer.customvalidation.AllowedDepartments;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class EmployeeDTO {
     private Long id;
+    @NotBlank(message = "First name cannot be blank")
+    @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
     private String firstName;
+    @NotBlank(message = "Last name cannot be blank")
+    @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     private String lastName;
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email cannot be blank")
     private String email;
+    @NotBlank(message = "Phone number cannot be blank")
+    @Size(min = 10, max = 15, message = "Phone number must be between 10 and 15 characters")
+    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must contain only digits and can start with +")
+
     private String phone;
+    @NotBlank(message = "Department cannot be blank")
+    @Size(min = 2, max = 50, message = "Department must be between 2 and 50 characters")
+
+    @AllowedDepartments(
+            anyOf = { "IT", "HR", "Finance", "Sales", "Support" },
+            message = "Department must be one of: IT, HR, Finance, Sales, Support"
+    )
     private String department;
 
     public EmployeeDTO(Long id, String firstName, String lastName, String email, String phone, String department) {

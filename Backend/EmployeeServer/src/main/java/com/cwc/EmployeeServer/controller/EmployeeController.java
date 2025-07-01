@@ -1,15 +1,16 @@
 package com.cwc.EmployeeServer.controller;
 
 import com.cwc.EmployeeServer.dto.EmployeeDTO;
-import com.cwc.EmployeeServer.entities.Employee;
 import com.cwc.EmployeeServer.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/api/employees")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -23,14 +24,14 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
     @PostMapping
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid EmployeeDTO employeeDTO) {
         EmployeeDTO createdEmployee = employeeService.save(employeeDTO);
         return ResponseEntity.status(201).body(createdEmployee);
     }
 
 
     @PostMapping("/list")
-    public ResponseEntity<Iterable<EmployeeDTO>> createEmployees(@RequestBody List<EmployeeDTO> employeeDTOs) {
+    public ResponseEntity<Iterable<EmployeeDTO>> createEmployees(@RequestBody @Valid List<EmployeeDTO> employeeDTOs) {
         Iterable<EmployeeDTO> createdEmployees = employeeService.saveAll(employeeDTOs);
         return ResponseEntity.status(201).body(createdEmployees);
     }
@@ -54,7 +55,7 @@ public class EmployeeController {
     }
     //update an employee
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody @Valid EmployeeDTO employeeDTO) {
         if (employeeService.existsById(id)) {
             employeeDTO.setId(id);
             EmployeeDTO updatedEmployee = employeeService.update(employeeDTO);
@@ -64,12 +65,12 @@ public class EmployeeController {
         }
     }
     @PutMapping
-    public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody @Valid EmployeeDTO employeeDTO) {
         EmployeeDTO updatedEmployee = employeeService.update(employeeDTO);
         return ResponseEntity.ok(updatedEmployee);
     }
     @PutMapping("/list")
-    public ResponseEntity<Iterable<EmployeeDTO>> updateEmployees(@RequestBody List<EmployeeDTO> employeeDTOs) {
+    public ResponseEntity<Iterable<EmployeeDTO>> updateEmployees(@RequestBody @Valid List<EmployeeDTO> employeeDTOs) {
         Iterable<EmployeeDTO> updatedEmployees = employeeService.saveAll(employeeDTOs);
         return ResponseEntity.ok(updatedEmployees);
     }
