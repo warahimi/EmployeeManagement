@@ -67,7 +67,7 @@ function Dashboard() {
         Employee Dashboard
       </h1>
 
-      <div className="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-xl">
+      <div className="max-w-3xl mx-auto bg-white p-6 shadow-lg rounded-xl text-lg">
         <div className="mb-4">
           <input
             type="text"
